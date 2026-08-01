@@ -1,6 +1,9 @@
-name: Build Jami Android APK
+name: Build
 
 on:
+  push:
+    branches:
+      - main
   workflow_dispatch:
 
 jobs:
@@ -8,73 +11,110 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Download source
+      - name: Checkout source
         uses: actions/checkout@v4
         with:
           submodules: recursive
 
-      - name: Install build dependencies
+      - name: Update system
         run: |
           sudo apt-get update
+          sudo apt-get upgrade -y
+
+      - name: Install all build dependencies
+        run: |
           sudo apt-get install -y \
-            autopoint \
-            gettext \
+            build-essential \
+            gcc \
+            g++ \
+            make \
+            git \
+            wget \
+            curl \
+            ca-certificates \
+            pkg-config \
             autoconf \
             automake \
+            autopoint \
+            gettext \
+            gettext-base \
             libtool \
-            pkg-config \
+            libtool-bin \
+            m4 \
             cmake \
-            ninja-build
+            ninja-build \
+            meson \
+            python3 \
+            python3-pip \
+            yasm \
+            nasm \
+            bison \
+            flex \
+            patch \
+            unzip \
+            zip \
+            xz-utils \
+            zlib1g-dev \
+            libssl-dev \
+            libxml2-dev \
+            libxslt1-dev \
+            libffi-dev \
+            libncurses-dev
 
-      - name: Install Java
-        uses: actions/setup-java@v4
-        with:
-          distribution: temurin
-          java-version: 17
-
-      - name: Cache Gradle
-        uses: actions/cache@v4
-        with:
-          path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper
-          key: gradle-${{ runner.os }}-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
-          restore-keys: |
-            gradle-${{ runner.os }}-
-
-      - name: Setup Android SDK
-        uses: android-actions/setup-android@v3
-
-      - name: Install Android dependencies
+      - name: Verify build tools
         run: |
-          sdkmanager \
-            "platform-tools" \
-            "platforms;android-35" \
-            "build-tools;35.0.0" \
-            "cmake;3.22.1" \
-            "ndk;25.2.9519653"
+          echo "Checking tools..."
+          
+          which autopoint
+          autopoint --version
 
-      - name: Build APK
+          autoconf --version
+          automake --version
+          libtool --version
+          cmake --version
+          ninja --version
+          pkg-config --version
+
+      - name: Fix gettext autopoint path
         run: |
-          cd jami-android
-          chmod +x gradlew
+          if ! command -v autopoint >/dev/null 2>&1; then
+            sudo find /usr -name autopoint -type f
+            sudo ln -sf $(sudo find /usr -name autopoint -type f | head -1) /usr/local/bin/autopoint
+          fi
 
-          for i in 1 2 3; do
-            echo "Build attempt $i/3"
+          autopoint --version
 
-            ./gradlew assembleDebug && break
+      - name: Prepare contrib
+        run: |
+          cd contrib
 
-            echo "Retry..."
-            sleep 20
+          ./bootstrap
 
-            if [ "$i" = "3" ]; then
-              exit 1
-            fi
-          done
+      - name: Build contrib libraries
+        run: |
+          cd contrib
 
-      - name: Upload APK
+          make fetch
+          make -j$(nproc)
+
+      - name: Configure project
+        run: |
+          ./bootstrap
+
+          ./configure \
+            --enable-static \
+            --disable-shared
+
+      - name: Build project
+        run: |
+          make -j$(nproc)
+
+      - name: Upload build artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: jami-debug-apk
+          name: build-output
           path: |
-            **/*.apk
+            **/bin/**
+            **/*.exe
+            **/*.dll
+            **/*.so
