@@ -13,6 +13,19 @@ jobs:
         with:
           submodules: recursive
 
+      - name: Install build dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            autopoint \
+            gettext \
+            autoconf \
+            automake \
+            libtool \
+            pkg-config \
+            cmake \
+            ninja-build
+
       - name: Install Java
         uses: actions/setup-java@v4
         with:
@@ -51,11 +64,10 @@ jobs:
 
             ./gradlew assembleDebug && break
 
-            echo "Build failed. Waiting before retry..."
+            echo "Retry..."
             sleep 20
 
             if [ "$i" = "3" ]; then
-              echo "Build failed after 3 attempts"
               exit 1
             fi
           done
