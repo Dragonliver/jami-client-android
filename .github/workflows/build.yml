@@ -4,37 +4,53 @@ on:
   push:
     branches:
       - main
+
   workflow_dispatch:
 
+
 jobs:
+
   build:
+
     runs-on: ubuntu-latest
+
 
     env:
       ANDROID_NDK_VERSION: 26.3.11579264
 
+
     steps:
 
+
+      # -------------------------------
+      # Source
+      # -------------------------------
       - name: Checkout source
         uses: actions/checkout@v4
         with:
           submodules: recursive
 
 
-      # -----------------------------
-      # System update
-      # -----------------------------
+
+      # -------------------------------
+      # Update Ubuntu
+      # -------------------------------
       - name: Update system
         run: |
+
           sudo apt-get update
+
           sudo apt-get upgrade -y
 
 
-      # -----------------------------
-      # Build dependencies
-      # -----------------------------
+
+      # -------------------------------
+      # Dependencies
+      # -------------------------------
       - name: Install build dependencies
+        shell: bash
         run: |
+
           sudo apt-get install -y \
             build-essential \
             gcc \
@@ -73,118 +89,166 @@ jobs:
             libncurses-dev
 
 
-      # -----------------------------
+
+      # -------------------------------
       # Fix autopoint
-      # -----------------------------
-      - name: Install and fix autopoint
+      # -------------------------------
+      - name: Fix autopoint
+        shell: bash
         run: |
+
 
           echo "Searching autopoint..."
 
-          AUTOPOINT=$(find /usr -name autopoint -type f 2>/dev/null | head -1)
+          AUTOPOINT=$(find /usr -type f -name autopoint 2>/dev/null | head -1)
+
 
           if [ -z "$AUTOPOINT" ]; then
 
-            echo "autopoint not found, reinstall gettext"
+            echo "autopoint not found"
 
-            sudo apt-get remove -y gettext || true
-            sudo apt-get install -y gettext
+            echo "Installing gettext again"
 
-            AUTOPOINT=$(find /usr -name autopoint -type f 2>/dev/null | head -1)
+            sudo apt-get install --reinstall -y gettext gettext-base
+
+            AUTOPOINT=$(find /usr -type f -name autopoint 2>/dev/null | head -1)
 
           fi
 
 
-          if [ -n "$AUTOPOINT" ]; then
 
-            echo "Found:"
-            echo $AUTOPOINT
+          if [ -z "$AUTOPOINT" ]; then
 
-            sudo ln -sf $AUTOPOINT /usr/local/bin/autopoint
+            echo "ERROR: autopoint still missing"
 
-          else
+            dpkg -L gettext
 
-            echo "ERROR: autopoint missing"
             exit 1
 
           fi
 
 
-          echo "Checking..."
+
+          echo "Found autopoint:"
+          echo "$AUTOPOINT"
+
+
+
+          sudo chmod +x "$AUTOPOINT"
+
+
+          sudo ln -sf "$AUTOPOINT" /usr/local/bin/autopoint
+
+
+
+          echo "/usr/local/bin" >> $GITHUB_PATH
+
+          echo "/usr/bin" >> $GITHUB_PATH
+
+
+
+          echo "Checking autopoint"
 
           which autopoint
+
           autopoint --version
 
 
 
-      # -----------------------------
+
+
+      # -------------------------------
       # Verify tools
-      # -----------------------------
+      # -------------------------------
       - name: Verify tools
         run: |
 
-          echo "==== AUTOTOOLS ===="
 
+          echo "PATH:"
+          echo $PATH
+
+
+          echo "Autopoint:"
+          which autopoint
+          autopoint --version
+
+
+          echo "Autoconf:"
           autoconf --version
+
+
+          echo "Automake:"
           automake --version
+
+
+          echo "Libtool:"
           libtool --version
 
-          echo "==== BUILD ===="
 
+          echo "CMake:"
           cmake --version
-          ninja --version
-          pkg-config --version
 
 
 
-      # -----------------------------
-      # Android setup
-      # -----------------------------
+      # -------------------------------
+      # Android SDK
+      # -------------------------------
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
 
 
-      - name: Setup Android NDK
+
+      # -------------------------------
+      # Android NDK
+      # -------------------------------
+      - name: Install Android NDK
         run: |
 
+
           sdkmanager \
-          "ndk;${ANDROID_NDK_VERSION}"
+            "ndk;${ANDROID_NDK_VERSION}"
 
 
 
-      # -----------------------------
-      # Bootstrap contrib
-      # -----------------------------
+      # -------------------------------
+      # Build contrib
+      # -------------------------------
       - name: Bootstrap contrib
         run: |
 
+
           cd daemon/contrib
+
 
           ./bootstrap
 
 
 
-      # -----------------------------
-      # Build contrib
-      # -----------------------------
       - name: Build contrib libraries
         run: |
 
+
           cd daemon/contrib
 
+
           make fetch
+
 
           make -j$(nproc)
 
 
 
-      # -----------------------------
-      # Build Android
-      # -----------------------------
+
+
+      # -------------------------------
+      # Build Jami Android
+      # -------------------------------
       - name: Build Android APK
         run: |
 
+
           chmod +x gradlew
+
 
           ./gradlew \
             assembleDebug \
@@ -193,9 +257,11 @@ jobs:
 
 
 
-      # -----------------------------
+
+
+      # -------------------------------
       # Upload APK
-      # -----------------------------
+      # -------------------------------
       - name: Upload APK
         uses: actions/upload-artifact@v4
 
@@ -204,4 +270,5 @@ jobs:
           name: jami-debug-apk
 
           path: |
+
             **/build/outputs/apk/**/*.apk
