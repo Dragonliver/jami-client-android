@@ -22,9 +22,9 @@ jobs:
     steps:
 
 
-      # -----------------------------
+      # --------------------------------
       # Checkout
-      # -----------------------------
+      # --------------------------------
       - name: Checkout source
         uses: actions/checkout@v4
         with:
@@ -32,9 +32,9 @@ jobs:
 
 
 
-      # -----------------------------
-      # Update system
-      # -----------------------------
+      # --------------------------------
+      # Update
+      # --------------------------------
       - name: Update system
         run: |
 
@@ -44,15 +44,12 @@ jobs:
 
 
 
-      # -----------------------------
-      # Install dependencies
-      # -----------------------------
+
+      # --------------------------------
+      # Dependencies
+      # --------------------------------
       - name: Install dependencies
-        shell: bash
         run: |
-
-          sudo apt-get update
-
 
           sudo apt-get install -y \
             build-essential \
@@ -66,8 +63,6 @@ jobs:
             pkg-config \
             autoconf \
             automake \
-            gettext \
-            gettext-base \
             libtool \
             libtool-bin \
             m4 \
@@ -75,12 +70,6 @@ jobs:
             ninja-build \
             meson \
             python3 \
-            python3-pip \
-            yasm \
-            nasm \
-            bison \
-            flex \
-            patch \
             unzip \
             zip \
             xz-utils \
@@ -93,73 +82,67 @@ jobs:
 
 
 
-
-      # -----------------------------
-      # Setup autopoint
-      # -----------------------------
-      - name: Setup autopoint
+      # --------------------------------
+      # Build gettext with autopoint
+      # --------------------------------
+      - name: Install gettext autopoint
         shell: bash
         run: |
 
 
-          sudo apt-get install --reinstall -y \
-            gettext \
-            gettext-base
+          cd /tmp
 
 
 
-          echo "Searching autopoint"
-
-
-          AUTOPOINT=$(find /usr -type f -name autopoint 2>/dev/null | head -1)
+          wget https://ftp.gnu.org/gnu/gettext/gettext-0.22.5.tar.gz
 
 
 
-          if [ -z "$AUTOPOINT" ]; then
-
-              echo "ERROR: autopoint not found"
-
-              dpkg -L gettext
-
-              exit 1
-
-          fi
+          tar xf gettext-0.22.5.tar.gz
 
 
 
-          echo "Found:"
-          echo "$AUTOPOINT"
+          cd gettext-0.22.5
 
 
 
-          sudo chmod +x "$AUTOPOINT"
+          ./configure \
+            --prefix=/usr/local
 
 
 
-          sudo ln -sf "$AUTOPOINT" /usr/bin/autopoint
-
-          sudo ln -sf "$AUTOPOINT" /usr/local/bin/autopoint
+          make -j$(nproc)
 
 
 
-          echo "/usr/bin" >> $GITHUB_PATH
+          sudo make install
+
+
+
+          sudo ldconfig
+
+
 
           echo "/usr/local/bin" >> $GITHUB_PATH
 
 
 
-          echo "Checking autopoint"
-
-
-          /usr/bin/autopoint --version
+          echo "Checking gettext"
 
 
 
+          which autopoint
 
 
-      # -----------------------------
+          autopoint --version
+
+
+
+
+
+      # --------------------------------
       # Verify autotools
-      # -----------------------------
+      # --------------------------------
       - name: Verify autotools
         shell: bash
         run: |
@@ -185,44 +168,57 @@ jobs:
 
 
 
+          echo "automake"
+
+          automake --version
 
 
-      # -----------------------------
+
+          echo "libtool"
+
+          libtool --version
+
+
+
+
+
+      # --------------------------------
       # Android SDK
-      # -----------------------------
+      # --------------------------------
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
 
 
 
 
-
-      # -----------------------------
+      # --------------------------------
       # Android NDK
-      # -----------------------------
-      - name: Install NDK
+      # --------------------------------
+      - name: Install Android NDK
         run: |
 
 
           sdkmanager \
-          "ndk;${ANDROID_NDK_VERSION}"
+            "ndk;${ANDROID_NDK_VERSION}"
 
 
 
 
 
-      # -----------------------------
+      # --------------------------------
       # Bootstrap contrib
-      # -----------------------------
+      # --------------------------------
       - name: Bootstrap contrib
         shell: bash
         run: |
 
 
+          export PATH="/usr/local/bin:/usr/bin:$PATH"
+
+
+
           cd daemon/contrib
 
-
-          export PATH="/usr/local/bin:/usr/bin:$PATH"
 
 
           ./bootstrap
@@ -231,34 +227,22 @@ jobs:
 
 
 
-      # -----------------------------
+      # --------------------------------
       # Build contrib
-      # -----------------------------
+      # --------------------------------
       - name: Build contrib
         shell: bash
         run: |
 
 
-          cd daemon/contrib
-
-
-
           export PATH="/usr/local/bin:/usr/bin:$PATH"
 
 
-          export ACLOCAL_PATH="/usr/share/aclocal"
-
-
-          export AUTOPOINT="/usr/bin/autopoint"
-
-
-          export AUTOM4TE="/usr/bin/autom4te"
+          export ACLOCAL_PATH="/usr/local/share/aclocal:/usr/share/aclocal"
 
 
 
-          echo "===== ENV ====="
-
-          echo $PATH
+          echo "Before make"
 
 
           which autopoint
@@ -268,28 +252,23 @@ jobs:
 
 
 
-          echo "===== FETCH ====="
+          cd daemon/contrib
+
 
 
           make fetch
 
 
 
-          echo "===== BUILD ====="
-
-
-
-          make \
-          AUTOTOOLS="autopoint" \
-          -j$(nproc)
+          make -j$(nproc)
 
 
 
 
 
-      # -----------------------------
-      # Build APK
-      # -----------------------------
+      # --------------------------------
+      # Build Android
+      # --------------------------------
       - name: Build APK
         shell: bash
         run: |
@@ -298,7 +277,9 @@ jobs:
           chmod +x gradlew
 
 
+
           export PATH="/usr/local/bin:/usr/bin:$PATH"
+
 
 
           ./gradlew \
@@ -310,9 +291,9 @@ jobs:
 
 
 
-      # -----------------------------
-      # Upload APK
-      # -----------------------------
+      # --------------------------------
+      # Upload
+      # --------------------------------
       - name: Upload APK
         uses: actions/upload-artifact@v4
 
@@ -320,6 +301,6 @@ jobs:
 
           name: jami-debug-apk
 
-          path: |
+          path:
 
             **/build/outputs/apk/**/*.apk
