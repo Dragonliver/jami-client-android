@@ -22,9 +22,9 @@ jobs:
     steps:
 
 
-      # ---------------------------------
+      # -----------------------------
       # Checkout
-      # ---------------------------------
+      # -----------------------------
       - name: Checkout source
         uses: actions/checkout@v4
         with:
@@ -32,9 +32,9 @@ jobs:
 
 
 
-      # ---------------------------------
+      # -----------------------------
       # Update system
-      # ---------------------------------
+      # -----------------------------
       - name: Update system
         run: |
 
@@ -44,10 +44,10 @@ jobs:
 
 
 
-      # ---------------------------------
+      # -----------------------------
       # Install dependencies
-      # ---------------------------------
-      - name: Install build dependencies
+      # -----------------------------
+      - name: Install dependencies
         shell: bash
         run: |
 
@@ -93,18 +93,22 @@ jobs:
 
 
 
-      # ---------------------------------
-      # Fix autopoint globally
-      # ---------------------------------
+
+      # -----------------------------
+      # Setup autopoint
+      # -----------------------------
       - name: Setup autopoint
         shell: bash
         run: |
 
 
-          echo "Searching autopoint..."
+          sudo apt-get install --reinstall -y \
+            gettext \
+            gettext-base
 
 
-          sudo apt-get install --reinstall -y gettext gettext-base
+
+          echo "Searching autopoint"
 
 
           AUTOPOINT=$(find /usr -type f -name autopoint 2>/dev/null | head -1)
@@ -113,11 +117,11 @@ jobs:
 
           if [ -z "$AUTOPOINT" ]; then
 
-            echo "ERROR: autopoint not found"
+              echo "ERROR: autopoint not found"
 
-            dpkg -L gettext
+              dpkg -L gettext
 
-            exit 1
+              exit 1
 
           fi
 
@@ -144,22 +148,20 @@ jobs:
 
 
 
-          echo "Testing autopoint"
+          echo "Checking autopoint"
 
 
-
-          which autopoint
-
-          autopoint --version
+          /usr/bin/autopoint --version
 
 
 
 
 
-      # ---------------------------------
-      # Check tools
-      # ---------------------------------
-      - name: Check tools
+      # -----------------------------
+      # Verify autotools
+      # -----------------------------
+      - name: Verify autotools
+        shell: bash
         run: |
 
 
@@ -167,56 +169,60 @@ jobs:
           echo $PATH
 
 
-          echo "autopoint:"
+          echo "autopoint"
+
           which autopoint
+
           autopoint --version
 
 
-          echo "autoconf:"
-          autoconf --version
 
+          echo "autoreconf"
 
-          echo "automake:"
-          automake --version
+          which autoreconf
 
-
-          echo "libtool:"
-          libtool --version
+          autoreconf --version
 
 
 
 
 
-      # ---------------------------------
+      # -----------------------------
       # Android SDK
-      # ---------------------------------
+      # -----------------------------
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
 
 
 
-      # ---------------------------------
+
+
+      # -----------------------------
       # Android NDK
-      # ---------------------------------
-      - name: Install Android NDK
+      # -----------------------------
+      - name: Install NDK
         run: |
 
 
           sdkmanager \
-            "ndk;${ANDROID_NDK_VERSION}"
+          "ndk;${ANDROID_NDK_VERSION}"
 
 
 
 
 
-      # ---------------------------------
+      # -----------------------------
       # Bootstrap contrib
-      # ---------------------------------
+      # -----------------------------
       - name: Bootstrap contrib
+        shell: bash
         run: |
 
 
           cd daemon/contrib
+
+
+          export PATH="/usr/local/bin:/usr/bin:$PATH"
 
 
           ./bootstrap
@@ -225,9 +231,9 @@ jobs:
 
 
 
-      # ---------------------------------
+      # -----------------------------
       # Build contrib
-      # ---------------------------------
+      # -----------------------------
       - name: Build contrib
         shell: bash
         run: |
@@ -237,38 +243,32 @@ jobs:
 
 
 
-          echo "===== AUTIPOINT CHECK BEFORE MAKE ====="
-
-
-
-          AUTOPOINT=$(find /usr -type f -name autopoint 2>/dev/null | head -1)
-
-
-          if [ -z "$AUTOPOINT" ]; then
-              echo "autopoint missing before contrib build"
-              exit 1
-          fi
-
-
-
-          sudo ln -sf "$AUTOPOINT" /usr/bin/autopoint
-
-          sudo ln -sf "$AUTOPOINT" /usr/local/bin/autopoint
-
-
-
           export PATH="/usr/local/bin:/usr/bin:$PATH"
 
 
+          export ACLOCAL_PATH="/usr/share/aclocal"
+
+
+          export AUTOPOINT="/usr/bin/autopoint"
+
+
+          export AUTOM4TE="/usr/bin/autom4te"
+
+
+
+          echo "===== ENV ====="
+
+          echo $PATH
+
 
           which autopoint
+
 
           autopoint --version
 
 
 
           echo "===== FETCH ====="
-
 
 
           make fetch
@@ -279,21 +279,26 @@ jobs:
 
 
 
-          make -j$(nproc)
+          make \
+          AUTOTOOLS="autopoint" \
+          -j$(nproc)
 
 
 
 
 
-      # ---------------------------------
+      # -----------------------------
       # Build APK
-      # ---------------------------------
-      - name: Build Android APK
+      # -----------------------------
+      - name: Build APK
+        shell: bash
         run: |
 
 
           chmod +x gradlew
 
+
+          export PATH="/usr/local/bin:/usr/bin:$PATH"
 
 
           ./gradlew \
@@ -305,9 +310,9 @@ jobs:
 
 
 
-      # ---------------------------------
-      # Upload
-      # ---------------------------------
+      # -----------------------------
+      # Upload APK
+      # -----------------------------
       - name: Upload APK
         uses: actions/upload-artifact@v4
 
