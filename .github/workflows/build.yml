@@ -1,4 +1,4 @@
-name: Build
+name: Build Jami Android
 
 on:
   push:
@@ -10,18 +10,30 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    env:
+      ANDROID_NDK_VERSION: 26.3.11579264
+
     steps:
+
       - name: Checkout source
         uses: actions/checkout@v4
         with:
           submodules: recursive
 
+
+      # -----------------------------
+      # System update
+      # -----------------------------
       - name: Update system
         run: |
           sudo apt-get update
           sudo apt-get upgrade -y
 
-      - name: Install all build dependencies
+
+      # -----------------------------
+      # Build dependencies
+      # -----------------------------
+      - name: Install build dependencies
         run: |
           sudo apt-get install -y \
             build-essential \
@@ -35,7 +47,6 @@ jobs:
             pkg-config \
             autoconf \
             automake \
-            autopoint \
             gettext \
             gettext-base \
             libtool \
@@ -61,60 +72,136 @@ jobs:
             libffi-dev \
             libncurses-dev
 
-      - name: Verify build tools
+
+      # -----------------------------
+      # Fix autopoint
+      # -----------------------------
+      - name: Install and fix autopoint
         run: |
-          echo "Checking tools..."
-          
+
+          echo "Searching autopoint..."
+
+          AUTOPOINT=$(find /usr -name autopoint -type f 2>/dev/null | head -1)
+
+          if [ -z "$AUTOPOINT" ]; then
+
+            echo "autopoint not found, reinstall gettext"
+
+            sudo apt-get remove -y gettext || true
+            sudo apt-get install -y gettext
+
+            AUTOPOINT=$(find /usr -name autopoint -type f 2>/dev/null | head -1)
+
+          fi
+
+
+          if [ -n "$AUTOPOINT" ]; then
+
+            echo "Found:"
+            echo $AUTOPOINT
+
+            sudo ln -sf $AUTOPOINT /usr/local/bin/autopoint
+
+          else
+
+            echo "ERROR: autopoint missing"
+            exit 1
+
+          fi
+
+
+          echo "Checking..."
+
           which autopoint
           autopoint --version
+
+
+
+      # -----------------------------
+      # Verify tools
+      # -----------------------------
+      - name: Verify tools
+        run: |
+
+          echo "==== AUTOTOOLS ===="
 
           autoconf --version
           automake --version
           libtool --version
+
+          echo "==== BUILD ===="
+
           cmake --version
           ninja --version
           pkg-config --version
 
-      - name: Fix gettext autopoint path
-        run: |
-          if ! command -v autopoint >/dev/null 2>&1; then
-            sudo find /usr -name autopoint -type f
-            sudo ln -sf $(sudo find /usr -name autopoint -type f | head -1) /usr/local/bin/autopoint
-          fi
 
-          autopoint --version
 
-      - name: Prepare contrib
+      # -----------------------------
+      # Android setup
+      # -----------------------------
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+
+
+      - name: Setup Android NDK
         run: |
-          cd contrib
+
+          sdkmanager \
+          "ndk;${ANDROID_NDK_VERSION}"
+
+
+
+      # -----------------------------
+      # Bootstrap contrib
+      # -----------------------------
+      - name: Bootstrap contrib
+        run: |
+
+          cd daemon/contrib
 
           ./bootstrap
 
+
+
+      # -----------------------------
+      # Build contrib
+      # -----------------------------
       - name: Build contrib libraries
         run: |
-          cd contrib
+
+          cd daemon/contrib
 
           make fetch
+
           make -j$(nproc)
 
-      - name: Configure project
+
+
+      # -----------------------------
+      # Build Android
+      # -----------------------------
+      - name: Build Android APK
         run: |
-          ./bootstrap
 
-          ./configure \
-            --enable-static \
-            --disable-shared
+          chmod +x gradlew
 
-      - name: Build project
-        run: |
-          make -j$(nproc)
+          ./gradlew \
+            assembleDebug \
+            --no-daemon \
+            --stacktrace
 
-      - name: Upload build artifacts
+
+
+      # -----------------------------
+      # Upload APK
+      # -----------------------------
+      - name: Upload APK
         uses: actions/upload-artifact@v4
+
         with:
-          name: build-output
+
+          name: jami-debug-apk
+
           path: |
-            **/bin/**
-            **/*.exe
-            **/*.dll
-            **/*.so
+            **/build/outputs/apk/**/*.apk
