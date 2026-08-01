@@ -1,299 +1,153 @@
-name: Build Jami Android
+name: Build Jami Android (FULL AUTO)
 
 on:
-  push:
-    branches:
-      - main
-
   workflow_dispatch:
-
+  push:
+    branches: [ main ]
 
 jobs:
-
   build:
-
     runs-on: ubuntu-latest
-
 
     env:
       ANDROID_NDK_VERSION: 26.3.11579264
 
-
     steps:
 
-
-      # -----------------------------
-      # Checkout
-      # -----------------------------
-      - name: Checkout source
-        uses: actions/checkout@v4
-        with:
-          submodules: recursive
-
-
-
-      # -----------------------------
-      # Dependencies
-      # -----------------------------
-      - name: Install dependencies
-        shell: bash
-        run: |
-
-          sudo apt-get update
-
-
-          sudo apt-get install -y \
-            build-essential \
-            gcc \
-            g++ \
-            make \
-            git \
-            wget \
-            curl \
-            ca-certificates \
-            pkg-config \
-            autoconf \
-            automake \
-            gettext \
-            gettext-base \
-            libtool \
-            libtool-bin \
-            cmake \
-            ninja-build \
-            meson \
-            python3 \
-            unzip \
-            zip \
-            xz-utils \
-            zlib1g-dev \
-            libssl-dev \
-            libxml2-dev \
-            libxslt1-dev \
-            libffi-dev \
-            libncurses-dev \
-            libyaml-cpp-dev
-
-
-
-
-
-      # -----------------------------
-      # Fix autopoint
-      # -----------------------------
-      - name: Fix autopoint
-        shell: bash
-        run: |
-
-
-          AUTOPOINT=$(find /usr -type f -name autopoint 2>/dev/null | head -1)
-
-
-
-          if [ -z "$AUTOPOINT" ]; then
-
-            sudo apt-get install --reinstall -y gettext
-
-            AUTOPOINT=$(find /usr -type f -name autopoint 2>/dev/null | head -1)
-
-          fi
-
-
-
-          sudo chmod +x "$AUTOPOINT"
-
-
-
-          sudo ln -sf "$AUTOPOINT" /usr/bin/autopoint
-
-          sudo ln -sf "$AUTOPOINT" /usr/local/bin/autopoint
-
-
-
-          echo "/usr/local/bin" >> $GITHUB_PATH
-
-          echo "/usr/bin" >> $GITHUB_PATH
-
-
-
-          autopoint --version
-
-
-
-
-
-      # -----------------------------
-      # Fix GNU mirrors
-      # -----------------------------
-      - name: Fix GNU download mirrors
-        shell: bash
-        run: |
-
-
-          echo "Replacing bad GNU mirrors"
-
-
-
-          find daemon/contrib/src \
-          -name rules.mak \
-          -type f \
-          -exec sed -i \
-          's|https://ftpmirror.gnu.org|https://ftp.gnu.org/gnu|g' {} \;
-
-
-
-          echo "Done"
-
-
-
-
-
-      # -----------------------------
-      # Patch gnutls autoreconf
-      # -----------------------------
-      - name: Patch gnutls autoreconf
-        shell: bash
-        run: |
-
-
-          FILE="daemon/contrib/src/gnutls/rules.mak"
-
-
-
-          if [ -f "$FILE" ]; then
-
-
-            sed -i \
-            's|autoreconf|PATH=/usr/local/bin:/usr/bin autoreconf|g' \
-            "$FILE"
-
-
-          fi
-
-
-
-          grep -n autoreconf "$FILE" || true
-
-
-
-
-
-      # -----------------------------
-      # Android SDK
-      # -----------------------------
-      - name: Setup Android SDK
-        uses: android-actions/setup-android@v3
-
-
-
-
-
-      # -----------------------------
-      # Android NDK
-      # -----------------------------
-      - name: Install NDK
-        shell: bash
-        run: |
-
-
-          sdkmanager \
-          "ndk;${ANDROID_NDK_VERSION}"
-
-
-
-
-
-      # -----------------------------
-      # Bootstrap contrib
-      # -----------------------------
-      - name: Bootstrap contrib
-        shell: bash
-        run: |
-
-
-          export PATH="/usr/local/bin:/usr/bin:$PATH"
-
-
-
-          cd daemon/contrib
-
-
-
-          ./bootstrap
-
-
-
-
-
-      # -----------------------------
-      # Build contrib
-      # -----------------------------
-      - name: Build contrib
-        shell: bash
-        run: |
-
-
-          export PATH="/usr/local/bin:/usr/bin:$PATH"
-
-
-
-          cd daemon/contrib
-
-
-
-          echo "Checking tools"
-
-
-          which autopoint
-
-          autopoint --version
-
-
-
-          make fetch
-
-
-
+    # -----------------------------
+    # Repo
+    # -----------------------------
+    - name: Checkout
+      uses: actions/checkout@v4
+      with:
+        submodules: recursive
+
+    # -----------------------------
+    # System deps
+    # -----------------------------
+    - name: Install dependencies
+      run: |
+        sudo apt-get update
+
+        sudo apt-get install -y \
+          build-essential \
+          cmake \
+          ninja-build \
+          automake \
+          autoconf \
+          libtool \
+          libtool-bin \
+          gettext \
+          autopoint \
+          pkg-config \
+          yasm \
+          swig \
+          m4 \
+          curl \
+          wget \
+          unzip \
+          python3 \
+          libssl-dev \
+          libxml2-dev \
+          libxslt1-dev \
+          libffi-dev \
+          zlib1g-dev \
+          libyaml-cpp-dev
+
+    # -----------------------------
+    # Fix autopoint (ГЛАВНОЕ)
+    # -----------------------------
+    - name: Ensure autopoint exists
+      run: |
+        set -e
+
+        if ! command -v autopoint; then
+          echo "Installing gettext manually..."
+
+          cd /tmp
+          wget https://ftp.gnu.org/gnu/gettext/gettext-0.22.5.tar.gz
+          tar xf gettext-0.22.5.tar.gz
+          cd gettext-0.22.5
+
+          ./configure
           make -j$(nproc)
+          sudo make install
+        fi
 
+        sudo ln -sf $(which autopoint) /usr/local/bin/autopoint
 
+        echo "/usr/local/bin" >> $GITHUB_PATH
 
+        autopoint --version
 
+    # -----------------------------
+    # Fix GNU mirrors (ВАЖНО)
+    # -----------------------------
+    - name: Fix GNU mirrors
+      run: |
+        find daemon/contrib/src -name rules.mak -type f -exec \
+        sed -i 's|https://ftpmirror.gnu.org|https://ftp.gnu.org/gnu|g' {} \;
 
-      # -----------------------------
-      # Build project
-      # -----------------------------
-      - name: Build APK
-        shell: bash
-        run: |
+    # -----------------------------
+    # Fix gnutls (PATH fix)
+    # -----------------------------
+    - name: Patch gnutls
+      run: |
+        FILE="daemon/contrib/src/gnutls/rules.mak"
 
+        if [ -f "$FILE" ]; then
+          sed -i 's|autoreconf|PATH=/usr/local/bin:/usr/bin:/bin autoreconf|g' "$FILE"
+        fi
 
-          export PATH="/usr/local/bin:/usr/bin:$PATH"
+    # -----------------------------
+    # Android SDK
+    # -----------------------------
+    - name: Setup Android SDK
+      uses: android-actions/setup-android@v3
 
+    - name: Install NDK
+      run: |
+        sdkmanager "ndk;${ANDROID_NDK_VERSION}"
 
+    # -----------------------------
+    # Bootstrap contrib
+    # -----------------------------
+    - name: Bootstrap
+      run: |
+        export PATH="/usr/local/bin:/usr/bin:/bin:$PATH"
 
-          chmod +x gradlew
+        cd daemon/contrib
+        ./bootstrap
 
+    # -----------------------------
+    # Build contrib
+    # -----------------------------
+    - name: Build contrib
+      run: |
+        export PATH="/usr/local/bin:/usr/bin:/bin:$PATH"
 
+        which autopoint
+        autopoint --version
 
-          ./gradlew \
-            assembleDebug \
-            --no-daemon \
-            --stacktrace
+        cd daemon/contrib
 
+        make fetch
+        make -j$(nproc)
 
+    # -----------------------------
+    # Build APK
+    # -----------------------------
+    - name: Build APK
+      run: |
+        chmod +x gradlew
 
+        ./gradlew assembleDebug --no-daemon --stacktrace
 
-
-      # -----------------------------
-      # Upload
-      # -----------------------------
-      - name: Upload APK
-        uses: actions/upload-artifact@v4
-
-        with:
-
-          name: jami-debug-apk
-
-          path: |
-
-            **/build/outputs/apk/**/*.apk
+    # -----------------------------
+    # Upload
+    # -----------------------------
+    - name: Upload APK
+      uses: actions/upload-artifact@v4
+      with:
+        name: jami-apk
+        path: "**/build/outputs/apk/**/*.apk"
