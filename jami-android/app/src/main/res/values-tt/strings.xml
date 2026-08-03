@@ -7,7 +7,7 @@
   <string name="version_section">Версия</string>
   <string name="website_chooser_title">Сайтны...</string>
   <string name="license">Бу программа бернинди гарантиясез \"кайчан булса\" бирелә.</string>
-  <string name="description">Jami - үз кулланучыларының ирекләрен һәм шәхси тормышын хөрмәт итүче универсаль коммуникация өчен ирекле программа.</string>
+  <string name="description">Pulse - үз кулланучыларының ирекләрен һәм шәхси тормышын хөрмәт итүче универсаль коммуникация өчен ирекле программа.</string>
   <string name="credits">Кредитлар</string>
   <string name="pip_title">Җәми конференциясе</string>
   <string name="call_service_description">Бу хезмәт сезнең шалтыратуларны беренче планда тоту өчен кирәк. Ул бары тик шалтыратулар вакытында гына эшли.</string>
@@ -93,7 +93,7 @@
   <string name="yesterday">Кичә</string>
   <!--Contacts-->
   <string name="prompt_new_password_repeat">Яңа шифәрне раслау</string>
-  <string name="account_create_title">Jami хисабы булдыру</string>
+  <string name="account_create_title">Pulse хисабы булдыру</string>
   <string name="prompt_hint_username">Исем кулланучы</string>
   <string name="wizard_next">Киләсесе</string>
   <string name="wizard_back">Кайт!</string>
