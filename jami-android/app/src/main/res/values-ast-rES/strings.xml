@@ -7,9 +7,9 @@
   <string name="version_section">La versión</string>
   <string name="website_chooser_title">La vista web usando...</string>
   <string name="license">El software ye proporcionáu \"como ye\", ensin garantía de nengún tipu.</string>
-  <string name="description">Jami ye un software llibre pa la comunicación universal que respeta les llibertaes y la privacidá de los sos usuarios.</string>
+  <string name="description">Pulse ye un software llibre pa la comunicación universal que respeta les llibertaes y la privacidá de los sos usuarios.</string>
   <string name="credits">Créditos</string>
-  <string name="pip_title">La Conferencia Jami</string>
+  <string name="pip_title">La Conferencia Pulse</string>
   <string name="call_service_description">Esta función ye necesaria pa caltener les sos llamadas en primer plano.</string>
   <string name="data_transfer_service_description">Esta función ye necesaria pa mostrar notificaciones persistentes mientres les transferencies de archivos.</string>
   <!--About dialog-->
@@ -26,7 +26,7 @@
   <string name="menu_item_settings">Configuración</string>
   <string name="menu_item_account_settings">Configuración de cuenta</string>
   <string name="menu_item_share">Compartir la mio cuenta</string>
-  <string name="menu_item_about">Sobre Jami</string>
+  <string name="menu_item_about">Sobre Pulse</string>
   <string name="video_setting_title">La configuración de video</string>
   <!--Dialing Fragment-->
   <!--History Fragment-->
