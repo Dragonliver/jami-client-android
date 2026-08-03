@@ -1,153 +1,55 @@
-name: Build Jami Android (FULL AUTO)
+name: Build Jami Android APK
 
 on:
-  workflow_dispatch:
   push:
-    branches: [ main ]
+    branches: [ master, main ]
+  pull_request:
+    branches: [ master, main ]
+  workflow_dispatch: # Позволяет запустить сборку вручную кнопкой на сайте GitHub
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
-    env:
-      ANDROID_NDK_VERSION: 26.3.11579264
-
     steps:
+      # 1. Скачиваем репозиторий (вместе с вашими изменениями)
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive # Обязательно для подтягивания зависимостей Jami
 
-    # -----------------------------
-    # Repo
-    # -----------------------------
-    - name: Checkout
-      uses: actions/checkout@v4
-      with:
-        submodules: recursive
+      # 2. Устанавливаем необходимые системные утилиты из вашего списка
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            cmake \
+            build-essential \
+            swig \
+            yasm \
+            ninja-build \
+            m4 \
+            autotools-dev \
+            autopoint \
+            libtool \
+            openjdk-17-jdk
 
-    # -----------------------------
-    # System deps
-    # -----------------------------
-    - name: Install dependencies
-      run: |
-        sudo apt-get update
+      # 3. Настраиваем окружение Android SDK
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
 
-        sudo apt-get install -y \
-          build-essential \
-          cmake \
-          ninja-build \
-          automake \
-          autoconf \
-          libtool \
-          libtool-bin \
-          gettext \
-          autopoint \
-          pkg-config \
-          yasm \
-          swig \
-          m4 \
-          curl \
-          wget \
-          unzip \
-          python3 \
-          libssl-dev \
-          libxml2-dev \
-          libxslt1-dev \
-          libffi-dev \
-          zlib1g-dev \
-          libyaml-cpp-dev
+      # 4. Запускаем сборку проекта (Gradle)
+      - name: Build APK with Gradle
+        run: |
+          chmod +x gradlew
+          ./gradlew assembleDebug
 
-    # -----------------------------
-    # Fix autopoint (ГЛАВНОЕ)
-    # -----------------------------
-    - name: Ensure autopoint exists
-      run: |
-        set -e
-
-        if ! command -v autopoint; then
-          echo "Installing gettext manually..."
-
-          cd /tmp
-          wget https://ftp.gnu.org/gnu/gettext/gettext-0.22.5.tar.gz
-          tar xf gettext-0.22.5.tar.gz
-          cd gettext-0.22.5
-
-          ./configure
-          make -j$(nproc)
-          sudo make install
-        fi
-
-        sudo ln -sf $(which autopoint) /usr/local/bin/autopoint
-
-        echo "/usr/local/bin" >> $GITHUB_PATH
-
-        autopoint --version
-
-    # -----------------------------
-    # Fix GNU mirrors (ВАЖНО)
-    # -----------------------------
-    - name: Fix GNU mirrors
-      run: |
-        find daemon/contrib/src -name rules.mak -type f -exec \
-        sed -i 's|https://ftpmirror.gnu.org|https://ftp.gnu.org/gnu|g' {} \;
-
-    # -----------------------------
-    # Fix gnutls (PATH fix)
-    # -----------------------------
-    - name: Patch gnutls
-      run: |
-        FILE="daemon/contrib/src/gnutls/rules.mak"
-
-        if [ -f "$FILE" ]; then
-          sed -i 's|autoreconf|PATH=/usr/local/bin:/usr/bin:/bin autoreconf|g' "$FILE"
-        fi
-
-    # -----------------------------
-    # Android SDK
-    # -----------------------------
-    - name: Setup Android SDK
-      uses: android-actions/setup-android@v3
-
-    - name: Install NDK
-      run: |
-        sdkmanager "ndk;${ANDROID_NDK_VERSION}"
-
-    # -----------------------------
-    # Bootstrap contrib
-    # -----------------------------
-    - name: Bootstrap
-      run: |
-        export PATH="/usr/local/bin:/usr/bin:/bin:$PATH"
-
-        cd daemon/contrib
-        ./bootstrap
-
-    # -----------------------------
-    # Build contrib
-    # -----------------------------
-    - name: Build contrib
-      run: |
-        export PATH="/usr/local/bin:/usr/bin:/bin:$PATH"
-
-        which autopoint
-        autopoint --version
-
-        cd daemon/contrib
-
-        make fetch
-        make -j$(nproc)
-
-    # -----------------------------
-    # Build APK
-    # -----------------------------
-    - name: Build APK
-      run: |
-        chmod +x gradlew
-
-        ./gradlew assembleDebug --no-daemon --stacktrace
-
-    # -----------------------------
-    # Upload
-    # -----------------------------
-    - name: Upload APK
-      uses: actions/upload-artifact@v4
-      with:
-        name: jami-apk
-        path: "**/build/outputs/apk/**/*.apk"
+      # 5. Сохраняем готовый APK-файл, чтобы его можно было скачать с сайта GitHub
+      - name: Upload APK artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: jami-custom-debug-apk
+          path: app/build/outputs/apk/debug/app-debug.apk
