@@ -5,7 +5,7 @@ on:
     branches: [ master, main ]
   pull_request:
     branches: [ master, main ]
-  workflow_dispatch: # Позволяет запустить сборку вручную кнопкой на сайте GitHub
+  workflow_dispatch:
 
 jobs:
   build:
@@ -18,7 +18,7 @@ jobs:
         with:
           submodules: recursive
 
-      # 2. Устанавливаем системные утилиты
+      # 2. Устанавливаем системные утилиты из вашего списка
       - name: Install dependencies
         run: |
           sudo apt-get update
@@ -41,10 +41,10 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      # 4. Генерируем Gradle Wrapper, делаем его исполняемым и собираем APK
-      - name: Generate Gradle Wrapper and Build APK
+      # 4. Переходим в папку jami-android и собираем APK через gradlew
+      - name: Build APK inside jami-android
         run: |
-          gradle wrapper
+          cd jami-android
           chmod +x gradlew
           ./gradlew assembleDebug
 
@@ -53,4 +53,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: jami-custom-debug-apk
-          path: app/build/outputs/apk/debug/app-debug.apk
+          path: jami-android/app/build/outputs/apk/debug/app-debug.apk
