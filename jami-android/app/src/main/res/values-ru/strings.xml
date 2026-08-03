@@ -482,17 +482,17 @@
   <string name="share_contact_intent_title">Добавьте этот контакт в Pulse!</string>
   <string name="share_contact_intent_body">Вы можете добавить этот контакт “%1$s” на распределенную коммуникационную платформу Pulse: %2$s</string>
   <!--PulseId-->
-  <string name="jami_id_copy">Скопировать Згд ID</string>
-  <string name="jami_id_share">Поделиться Згд ID</string>
+  <string name="jami_id_copy">Скопировать Pulse ID</string>
+  <string name="jami_id_share">Поделиться Pulse ID</string>
   <string name="jami_id_validate">Зарегистрировать имя пользователя</string>
   <string name="jami_id_available">Имя пользователя доступно.</string>
   <string name="jami_id_not_available">Имя пользователя недоступно.</string>
   <string name="jami_id_info">• Максимум 32 символа\n• Разрешены специальные символы: тире (-), нижнее подчёркивание (_)</string>
   <string name="jami_id_looking_for_availability">Проверка наличия имени пользователя…</string>
   <string name="jami_id_choose_username">Выберите имя пользователя</string>
-  <!--WelcomeЗгд-->
-  <string name="welcome_jami_title">Добро пожаловать в Згд</string>
-  <string name="welcome_jami_description">Поделитесь своим идентификатором Згд, чтобы с вами было проще связаться!</string>
+  <!--WelcomePulse-->
+  <string name="welcome_jami_title">Добро пожаловать в Pulse</string>
+  <string name="welcome_jami_description">Поделитесь своим идентификатором Pulse, чтобы с вами было проще связаться!</string>
   <!--Conversation details-->
   <string name="details">Подробности</string>
   <string name="secure_p2p_connection">Безопасное одноранговое соединение</string>
@@ -503,7 +503,7 @@
   <string name="show_certificate">Показать сертификат</string>
   <string name="mute_conversation">Отключить звук в беседе</string>
   <!--Donation-->
-  <string name="donation_card_description">Если вам нравится использовать Згд и вы верите в нашу миссию, не хотите ли сделать пожертвование?</string>
+  <string name="donation_card_description">Если вам нравится использовать Pulse и вы верите в нашу миссию, не хотите ли сделать пожертвование?</string>
   <string name="donation_card_not_now">Не сейчас</string>
   <string name="donation_donate">Пожертвование</string>
   <string name="donation_setting_title">Напоминание пожертвования</string>
@@ -575,11 +575,11 @@
   <string name="notif_channel_peer_tunnel">Общие сервисы</string>
   <string name="notif_channel_peer_tunnel_descr">Отображается, когда туннели одноранговых служб активны в фоновом режиме.</string>
   <string name="notif_peer_tunnel_title">Общие службы активны</string>
-  <string name="notif_peer_tunnel_text">Згд поддерживает ваши служебные соединения активными в фоновом режиме</string>
+  <string name="notif_peer_tunnel_text">Pulse поддерживает ваши служебные соединения активными в фоновом режиме</string>
   <string name="notif_peer_tunnel_stop_all">Остановить все</string>
   <!--Exposed/Hosted services-->
   <string name="shared_services_settings_title">Общие сервисы</string>
-  <string name="shared_services_settings_description">Предоставить локальные службы пользователям Згд</string>
+  <string name="shared_services_settings_description">Предоставить локальные службы пользователям Pulse</string>
   <string name="shared_services_empty">Службы не настроены</string>
   <string name="shared_services_add">Добавить службу</string>
   <string name="shared_services_add_title">Добавить общую службу</string>
@@ -594,7 +594,7 @@
   <string name="shared_services_port_invalid">Порт должен быть от 1 до 65535</string>
   <string name="shared_services_port">Порт: %d</string>
   <string name="shared_services_no_description">Нет описания</string>
-  <string name="shared_services_empty_subtitle">Делитесь локальными файлами или службами с пользователями Згд</string>
+  <string name="shared_services_empty_subtitle">Делитесь локальными файлами или службами с пользователями Pulse</string>
   <string name="shared_services_more_options">Дополнительные опции</string>
   <string name="shared_services_open_in_browser">Открыть в браузере</string>
   <string name="shared_services_disconnect_all">Отключить все</string>
