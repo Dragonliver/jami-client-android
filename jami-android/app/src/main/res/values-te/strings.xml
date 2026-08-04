@@ -315,10 +315,10 @@
   <string name="picker_btn">పరిచయాలను ఎంచుకోండి</string>
   <string name="bottomsheet_contact">జామి\n%1$s తో సంప్రదించండి</string>
   <string name="group_member_invited">ఆహ్వానించబడినవారు</string>
-  <!--JamiId-->
+  <!--PulseId-->
   <string name="jami_id_validate">వినియోగదారు పేరును నమోదు చేయండి</string>
   <string name="jami_id_choose_username">ఒక వినియోగదారు పేరును ఎంచుకోండి</string>
-  <!--WelcomeJami-->
+  <!--WelcomePulse-->
   <string name="welcome_jami_title">జామికి స్వాగతం</string>
   <!--Conversation details-->
   <string name="details">వివరాలు</string>
