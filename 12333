@@ -1,0 +1,64 @@
+#!/bin/bash
+set -e
+
+echo "=== [1/5] Установка системных зависимостей ==="
+sudo apt update && sudo apt install -y \
+  cmake build-essential swig yasm ninja-build m4 \
+  autotools-dev autopoint libtool openjdk-17-jdk wget git unzip curl
+
+echo "=== [2/5] Автоматическая установка Android SDK и NDK ==="
+export ANDROID_HOME="$HOME/Android/Sdk"
+mkdir -p "$ANDROID_HOME/cmdline-tools"
+
+# Скачиваем официальные командные инструменты Android
+CMDLINE_TOOLS_URL="https://dl.google.com/android/repository/commandlinetools-linux-11076708_latest.zip"
+if [ ! -d "$ANDROID_HOME/cmdline-tools/latest" ]; then
+    echo "Скачивание Android Command Line Tools..."
+    curl -o cmdline-tools.zip "$CMDLINE_TOOLS_URL"
+    unzip -q cmdline-tools.zip
+    mv cmdline-tools "$ANDROID_HOME/cmdline-tools/latest"
+    rm cmdline-tools.zip
+fi
+
+export PATH="$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/platform-tools:$PATH"
+
+# Принимаем лицензии и ставим нужные компоненты (NDK, Platform-34, CMake)
+yes | sdkmanager --licenses > /dev/null 2>&1
+echo "Установка NDK, Platform SDK и CMake..."
+sdkmanager "platform-tools" "platforms;android-34" "build-tools;34.0.0" "ndk;26.1.10909125" "cmake;3.22.1"
+
+export ANDROID_NDK_HOME="$ANDROID_HOME/ndk/26.1.10909125"
+
+echo "=== [3/5] Настройка защиты от падения зеркал (wget hook) ==="
+sudo tee /usr/local/bin/wget << 'EOF' > /dev/null
+#!/bin/bash
+ARGS=("$@")
+for i in "${!ARGS[@]}"; do
+  if [[ "${ARGS[$i]}" =~ https?://ftpmirror.gnu.org ]]; then
+    ARGS[$i]="${ARGS[$i]//https?:\/\/ftpmirror.gnu.org/https://mirrors.kernel.org/gnu}"
+  fi
+  if [[ "${ARGS[$i]}" =~ https?://[^/]*gnu\.org/gnu ]]; then
+    ARGS[$i]="${ARGS[$i]//https?:\/\/.*gnu\.org\/gnu/https://mirrors.kernel.org/gnu}"
+  fi
+  if [[ "${ARGS[$i]}" =~ https?://www.gnupg.org/ftp/gcrypt/gnutls ]]; then
+    ARGS[$i]="${ARGS[$i]//https?:\/\/www.gnupg.org\/ftp\/gcrypt\/gnutls/https://deb.debian.org/debian/pool/main/g/gnutls28}"
+  fi
+done
+exec /usr/bin/wget "${ARGS[@]}"
+EOF
+sudo chmod +x /usr/local/bin/wget
+
+echo "=== [4/5] Клонирование репозитория Jami ==="
+if [ ! -d "jami-client-android" ]; then
+    git clone --recursive https://git.jami.net/savoirfairelinux/jami-client-android.git
+fi
+cd jami-client-android
+
+echo "=== [5/5] Запуск компиляции APK ==="
+cd jami-android
+chmod +x gradlew
+./gradlew assembleDebug
+
+echo ""
+echo "🎉 Готово! APK-файл успешно собран и находится здесь:"
+echo "jami-android/app/build/outputs/apk/debug/app-debug.apk"
