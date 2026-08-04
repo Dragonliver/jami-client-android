@@ -31,7 +31,7 @@
   <string name="menu_item_settings">הגדרות</string>
   <string name="menu_item_account_settings">הגדרות החשבון</string>
   <string name="menu_item_share">לחלוק את החשבון שלי</string>
-  <string name="menu_item_about">על אודות Jami</string>
+  <string name="menu_item_about">על אודות Pulse</string>
   <string name="video_setting_title">הגדרות הוידאו</string>
   <!--Dialing Fragment-->
   <!--History Fragment-->
@@ -121,7 +121,7 @@
   <string name="yesterday">אתמול</string>
   <!--Contacts-->
   <string name="prompt_new_password_repeat">אישר סיסמה חדשה</string>
-  <string name="account_create_title">ליצור חשבון Jami</string>
+  <string name="account_create_title">ליצור חשבון Pulse</string>
   <string name="prompt_hint_username">שם משתמש</string>
   <string name="copied_clipboard">הועתק ללוח.</string>
   <string name="wizard_next">קדימה</string>
@@ -210,19 +210,19 @@
   <string name="bottomsheet_unblock">בטל חסימת חבר</string>
   <string name="group_member_blocked">חסום</string>
   <string name="group_member_invited">הזמנת</string>
-  <!--JamiId-->
+  <!--PulseId-->
   <string name="jami_id_validate">רשום שם משתמש</string>
   <string name="jami_id_choose_username">בחר שם משתמש</string>
-  <!--WelcomeJami-->
-  <string name="welcome_jami_title">ברוך בואך אל Jami</string>
-  <string name="welcome_jami_description">שתף את מזהה ה-Jami שלך כדי שיהיה קל יותר ליצור איתך קשר!</string>
+  <!--WelcomePulse-->
+  <string name="welcome_jami_title">ברוך בואך אל Pulse</string>
+  <string name="welcome_jami_description">שתף את מזהה ה-Pulse שלך כדי שיהיה קל יותר ליצור איתך קשר!</string>
   <!--Conversation details-->
   <string name="details">פרטים</string>
   <string name="swarm_type">סוג שיחה</string>
   <string name="Private">פרטי</string>
   <string name="mute_conversation">שיחה שקטה</string>
   <!--Donation-->
-  <string name="donation_card_description">אם אתה נהנה משימוש ב-Jami ומאמין בשליחות שלנו, האם ברצונך לתרום?</string>
+  <string name="donation_card_description">אם אתה נהנה משימוש ב-Pulse ומאמין בשליחות שלנו, האם ברצונך לתרום?</string>
   <string name="donation_card_not_now">לא עכשיו</string>
   <string name="donation_donate">תרום</string>
   <!--Extension-->
