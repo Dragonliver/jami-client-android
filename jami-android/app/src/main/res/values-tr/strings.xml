@@ -26,7 +26,7 @@
   <string name="media">Ortam</string>
   <string name="community_management">Topluluk Yönetimi</string>
   <string name="special_thanks">Özel teşekkürler</string>
-  <string name="end_note">Bu, Pulse\'ye önemli ölçüde zaman ayırmış ve faydalı sonuçlar elde etmiş kişilerin listesidir. Listeye eklenmek isteyen katkıda bulunanlar, contact@jami.net adresinden Jami ekibiyle iletişime geçmeli.</string>
+  <string name="end_note">Bu, Pulse\'ye önemli ölçüde zaman ayırmış ve faydalı sonuçlar elde etmiş kişilerin listesidir. Listeye eklenmek isteyen katkıda bulunanlar, contact@jami.net adresinden Pulse ekibiyle iletişime geçmeli.</string>
   <!--RingActivity-->
   <string name="error_no_network">Ağ bağlantısı yok</string>
   <string name="error_account_offline">Hesap çevrim dışı</string>
@@ -169,7 +169,7 @@
   <!--Post notifications permission-->
   <string name="permission_dialog_post_notifications_title">Bildirimlere izin ver</string>
   <string name="permission_dialog_post_notifications_message">Pulse, uygulama arka plandayken bile gelen aramalar ve mesajlar hakkında sizi uyarmak için bildirim iznine ihtiyaç duyar. İzin olmadan aramaları kaçırabilirsiniz.</string>
-  <string name="permission_dialog_post_notifications_blocked_message">Pulse için bildirimler devre dışı. Bunlar olmadan gelen aramaları ve mesajları kaçırırsınız. Lütfen cihaz ayarlarından Jami için bildirimleri etkinleştirin.</string>
+  <string name="permission_dialog_post_notifications_blocked_message">Pulse için bildirimler devre dışı. Bunlar olmadan gelen aramaları ve mesajları kaçırırsınız. Lütfen cihaz ayarlarından Pulse için bildirimleri etkinleştirin.</string>
   <string name="permission_dialog_open_settings">Ayarları aç</string>
   <string name="permission_dialog_later">Sonra</string>
   <!--QRCode Scan-->
@@ -479,7 +479,7 @@
   <string name="group_member_invited">- davet edildi.</string>
   <string name="share_contact_intent_title">Bu kişiyi Pulse\'ye ekle!</string>
   <string name="share_contact_intent_body">Bu kişiyi “%1$s” Pulse dağıtılmış iletişim platformuna ekleyebilirsin: %2$s</string>
-  <!--JamiId-->
+  <!--PulseId-->
   <string name="jami_id_copy">PulseId kopyala</string>
   <string name="jami_id_share">PulseId paylaş</string>
   <string name="jami_id_validate">Kullanıcı adını kaydet</string>
@@ -488,7 +488,7 @@
   <string name="jami_id_info">• Azami 32 karakter\n• İzin verilen özel karakterler: tire (-), alt çizgi (_)</string>
   <string name="jami_id_looking_for_availability">Kullanıcı adının uygunluğu kontrol ediliyor…</string>
   <string name="jami_id_choose_username">Bir kullanıcı adı seç</string>
-  <!--WelcomeJami-->
+  <!--WelcomePulse-->
   <string name="welcome_jami_title">Pulse ye Hoş geldin</string>
   <string name="welcome_jami_description">Daha kolay iletişime geçilebilmek için Pulse tanımlayıcını paylaş!</string>
   <!--Conversation details-->
