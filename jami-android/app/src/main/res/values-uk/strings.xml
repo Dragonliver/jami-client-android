@@ -171,7 +171,7 @@
   <!--Post notifications permission-->
   <string name="permission_dialog_post_notifications_title">Дозволити сповіщення</string>
   <string name="permission_dialog_post_notifications_message">Pulse потрібен дозвіл на сповіщення, щоб повідомляти вас про вхідні виклики та повідомлення, навіть коли застосунок працює у фоні. Без нього ви можете пропускати виклики.</string>
-  <string name="permission_dialog_post_notifications_blocked_message">Сповіщення для Pulse вимкнені. Без них ви пропускатимете вхідні виклики та повідомлення. Увімкніть сповіщення для Jami в налаштуваннях пристрою.</string>
+  <string name="permission_dialog_post_notifications_blocked_message">Сповіщення для Pulse вимкнені. Без них ви пропускатимете вхідні виклики та повідомлення. Увімкніть сповіщення для Pulse в налаштуваннях пристрою.</string>
   <string name="permission_dialog_open_settings">Відкрити налаштування</string>
   <string name="permission_dialog_later">Пізніше</string>
   <!--QRCode Scan-->
@@ -481,7 +481,7 @@
   <string name="group_member_invited">Запрошено</string>
   <string name="share_contact_intent_title">Додайте цей контакт у Pulse!</string>
   <string name="share_contact_intent_body">Ви можете додати цей контакт \"%1$s\" на розподіленій комунікаційній платформі Pulse: %2$s</string>
-  <!--JamiId-->
+  <!--PulseId-->
   <string name="jami_id_copy">Копіювати PulseId</string>
   <string name="jami_id_share">Поділитися PulseId</string>
   <string name="jami_id_validate">Зареєструйте ім\'я користувача</string>
@@ -490,7 +490,7 @@
   <string name="jami_id_info">• 32 символи максимум\n• Дозволені спеціальні символи: дефіс (-), підкреслення (_)</string>
   <string name="jami_id_looking_for_availability">Перевірка доступності імені користувача...</string>
   <string name="jami_id_choose_username">Виберіть ім\'я користувача</string>
-  <!--WelcomeJami-->
+  <!--WelcomePulse-->
   <string name="welcome_jami_title">Вітаємо в Pulse</string>
   <string name="welcome_jami_description">Поділіться своїм ідентифікатором Pulse, щоб можна було легше з вами звʼязатися!</string>
   <!--Conversation details-->
