@@ -42,14 +42,13 @@ jobs:
         run: |
           cd jami-android
           
-          # Динамически патчим правила загрузки GMP внутри репозитория демона, 
-          # чтобы вместо недоступного ftpmirror использовалось зеркало Debian
-          echo "Patching GMP rules.mak to avoid 502 Bad Gateway..."
-          GMP_RULES="../daemon/contrib/src/gmp/rules.mak"
-          if [ -f "$GMP_RULES" ]; then
-            sed -i 's|https://ftpmirror.gnu.org/gmp/gmp-6.3.0.tar.xz|https://deb.debian.org/debian/pool/main/g/gmp/gmp_6.3.0.orig.tar.xz|g' "$GMP_RULES"
-            sed -i 's|ftp://.*|https://deb.debian.org/debian/pool/main/g/gmp/gmp_6.3.0.orig.tar.xz|g' "$GMP_RULES"
-          fi
+          # Массово заменяем битые ссылки ftpmirror.gnu.org на зеркало GNU (gnu.org/prep/ftp.html илильники /ftp/gnu/)
+          echo "Patching all GNU mirrors in contrib rules..."
+          find ../daemon/contrib/src -name "rules.mak" -type f | while read file; do
+            sed -i 's|https://ftpmirror.gnu.org|https://mirrors.kernel.org/gnu|g' "$file"
+            sed -i 's|http://ftpmirror.gnu.org|https://mirrors.kernel.org/gnu|g' "$file"
+            sed -i 's|ftp://ftpmirror.gnu.org|https://mirrors.kernel.org/gnu|g' "$file"
+          done
 
           chmod +x gradlew
           ./gradlew assembleDebug
