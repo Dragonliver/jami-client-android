@@ -166,10 +166,10 @@
   <string name="dialog_hint_title">Исем</string>
   <string name="dialog_hint_description">Тәрҗемәсе</string>
   <string name="group_member_invited">Чакырылганнар</string>
-  <!--JamiId-->
+  <!--PulseId-->
   <string name="jami_id_validate">Кулланучы исемен теркәгез</string>
   <string name="jami_id_choose_username">Кулланучы исемен сайлагыз</string>
-  <!--WelcomeJami-->
+  <!--WelcomePulse-->
   <string name="welcome_jami_title">Җәмигә рәхим итегез.</string>
   <!--Conversation details-->
   <string name="details">Мәгълүматлар</string>
