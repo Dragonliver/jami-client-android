@@ -349,23 +349,23 @@
   <string name="dialog_hint_description">وصف</string>
   <string name="picker_title">إختيار جهات الاتصال</string>
   <string name="picker_btn">إختيار جهات الاتصال</string>
-  <string name="bottomsheet_contact">الاتصال مع Jami\n%1$s</string>
-  <!--JamiId-->
+  <string name="bottomsheet_contact">الاتصال مع Pulse\n%1$s</string>
+  <!--PulseId-->
   <string name="jami_id_validate">تسجيل اسم المستخدم</string>
   <string name="jami_id_available">اسم المستخدم متاح.</string>
   <string name="jami_id_not_available">اسم المستخدم غير متاح.</string>
   <string name="jami_id_looking_for_availability">جارٍ التحقق من توفّر اسم المستخدم…</string>
   <string name="jami_id_choose_username">اختر اسم مستخدم</string>
-  <!--WelcomeJami-->
+  <!--WelcomePulse-->
   <string name="welcome_jami_title">مرحبا بك في جامي</string>
-  <string name="welcome_jami_description">شارك معرّف Jami الخاص بك لتسهيل التواصل معك!</string>
+  <string name="welcome_jami_description">شارك معرّف Pulse الخاص بك لتسهيل التواصل معك!</string>
   <!--Conversation details-->
   <string name="details">التفاصيل</string>
   <string name="swarm_type">نوع المحادثة</string>
   <string name="Private">خاص</string>
   <string name="mute_conversation">محادثة صامتة</string>
   <!--Donation-->
-  <string name="donation_card_description">إذا كنت تستمتع باستخدام Jami وتؤمن برسالتنا، فهل تريد التبرّع؟</string>
+  <string name="donation_card_description">إذا كنت تستمتع باستخدام Pulse وتؤمن برسالتنا، فهل تريد التبرّع؟</string>
   <string name="donation_card_not_now">ليس الآن</string>
   <string name="donation_donate">تبرّع</string>
   <!--Extension-->
