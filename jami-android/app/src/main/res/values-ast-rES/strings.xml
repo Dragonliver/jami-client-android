@@ -169,7 +169,7 @@
   <string name="conversation_reply_you">El so padre.</string>
   <string name="conversation_preference_color">El color de la conversación</string>
   <string name="conversation_preference_emoji">Emoji de conversación</string>
-  <string name="conversation_type_contact">El contautu Jami</string>
+  <string name="conversation_type_contact">El contautu Pulse</string>
   <string name="conversation_type_private">Privada</string>
   <string name="conversation_search_hint">La conversación de busca</string>
   <string name="audio_recording_in_progress">Grabar...</string>
@@ -184,11 +184,11 @@
   <string name="prompt_new_password">Nueva contraseña</string>
   <string name="prompt_new_password_optional">Nueva contraseña (opcional)</string>
   <string name="prompt_new_password_repeat">Confirmar la contraseña nueva</string>
-  <string name="account_create_title">Crear cuenta Jami</string>
+  <string name="account_create_title">Crear cuenta Pulse</string>
   <string name="prompt_new_username">Introducir un nuevu nome d\' usuariu</string>
   <string name="prompt_hint_username">Nombre d\'usuariu</string>
-  <string name="help_password_choose">Escueye una contraseña fuerte que recordar pa protexer la so cuenta Jami.</string>
-  <string name="help_password_enter">Entra la contraseña principal de la cuenta Jami.</string>
+  <string name="help_password_choose">Escueye una contraseña fuerte que recordar pa protexer la so cuenta Pulse.</string>
+  <string name="help_password_enter">Entra la contraseña principal de la cuenta Pulse.</string>
   <string name="help_server_enter">Introduza la URL del servidor de xestión.</string>
   <string name="wizard_next">El siguiente</string>
   <string name="wizard_back">El so fíu, el so fíu,</string>
@@ -213,7 +213,7 @@
   <string name="devices">Dispositivos enllazaos</string>
   <string name="total_devices">Total de los dispositivos: </string>
   <!--Share fragment-->
-  <string name="share_message">Esta escarnación del códigos con Jami</string>
+  <string name="share_message">Esta escarnación del códigos con Pulse</string>
   <string name="share_message_no_account">Por favor, seleccione una cuenta pa compartir.</string>
   <string name="share_your_account_information">Compartir les mies informaciones de contacto</string>
   <string name="share_label">Compartir</string>
@@ -313,12 +313,12 @@
   <string name="dialog_hint_description">Descripción</string>
   <string name="picker_title">Seleccionar contactos</string>
   <string name="picker_btn">Seleccionar contactos</string>
-  <string name="bottomsheet_contact">Contactar con Jami\n%1$s</string>
-  <!--JamiId-->
+  <string name="bottomsheet_contact">Contactar con Pulse\n%1$s</string>
+  <!--PulseId-->
   <string name="jami_id_validate">Registrar nome d\' usuariu</string>
   <string name="jami_id_choose_username">Escueye un nome d\' usuariu</string>
-  <!--WelcomeJami-->
-  <string name="welcome_jami_title">Bienveníu a Jami.</string>
+  <!--WelcomePulse-->
+  <string name="welcome_jami_title">Bienveníu a Pulse.</string>
   <!--Conversation details-->
   <string name="details">Detalles</string>
   <string name="Private">Privada</string>
