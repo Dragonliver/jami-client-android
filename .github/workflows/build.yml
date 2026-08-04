@@ -41,15 +41,15 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      # 4. Надежное исправление ссылки GMP (обход ошибки 502 Bad Gateway)
+      # 4. Надежное исправление ссылки GMP (используем зеркало Debian)
       - name: Fix GMP download mirror
         run: |
-          echo "Looking for gmp rules.mak..."
+          echo "Patching gmp rules.mak to use reliable mirror..."
           find daemon/contrib/src/gmp -name "rules.mak" -type f | while read file; do
             echo "Patching $file"
-            sed -i 's|ftpmirror.gnu.org/gmp|gmplib.org/download/gmp|g' "$file"
-            sed -i 's|gnu.org/gnu/gmp|gmplib.org/download/gmp|g' "$file"
-            sed -i 's|\$(GNU)/gmp/|https://gmplib.org/download/gmp/|g' "$file"
+            sed -i 's|https://.*gnu.org/.*gmp-\(.*\)\.tar\.xz|https://deb.debian.org/debian/pool/main/g/gmp/gmp_\1.orig.tar.xz|g' "$file"
+            sed -i 's|http://.*gnu.org/.*gmp-\(.*\)\.tar\.xz|https://deb.debian.org/debian/pool/main/g/gmp/gmp_\1.orig.tar.xz|g' "$file"
+            sed -i 's|\$(GNU)/gmp/|https://deb.debian.org/debian/pool/main/g/gmp/|g' "$file"
           done
 
       # 5. Переходим в папку jami-android и собираем APK через gradlew
