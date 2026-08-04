@@ -147,7 +147,7 @@
         Anna
         \nElys
         \nVeroJeanLuc</string>
-    <string name="end_note">This is a list of people who have made a significant investment of time, with useful results, into Jami. Any such contributors who wish to be added to the list should contact the Jami team at contact@jami.net.</string>
+    <string name="end_note">This is a list of people who have made a significant investment of time, with useful results, into Pulse. Any such contributors who wish to be added to the list should contact the Pulse team at contact@jami.net.</string>
 
     <!-- RingActivity -->
     <string name="error_no_network">No network connectivity</string>
@@ -313,10 +313,10 @@
     <!-- Post notifications permission -->
     <string name="permission_dialog_post_notifications_title">Allow notifications</string>
     <string name="permission_dialog_post_notifications_message">Pulse needs the notifications permission to alert you of incoming calls and messages, even when the app is in the background. Without it, you may miss calls.</string>
-    <string name="permission_dialog_post_notifications_blocked_message">Notifications are disabled for Pulse. Without them you will miss incoming calls and messages. Please enable notifications for Jami in the device settings.</string>
+    <string name="permission_dialog_post_notifications_blocked_message">Notifications are disabled for Pulse. Without them you will miss incoming calls and messages. Please enable notifications for Pulse in the device settings.</string>
     <string name="permission_dialog_local_network_title">Allow local network access</string>
     <string name="permission_dialog_local_network_message">Pulse needs local network access to connect calls directly to devices on your network. Without it, calls may use a relay and have lower quality.</string>
-    <string name="permission_dialog_local_network_blocked_message">Local network access is disabled for Pulse. Calls to devices on your network may use a relay and have lower quality. Please enable local network access for Jami in the device settings.</string>
+    <string name="permission_dialog_local_network_blocked_message">Local network access is disabled for Pulse. Calls to devices on your network may use a relay and have lower quality. Please enable local network access for Pulse in the device settings.</string>
     <string name="permission_dialog_open_settings">Open settings</string>
     <string name="permission_dialog_later">Later</string>
 
@@ -654,7 +654,7 @@
     <string name="share_contact_intent_title">Add this contact on Pulse!</string>
     <string name="share_contact_intent_body">You can add this contact “%1$s” on the Pulse distributed communication platform: %2$s</string>
 
-    <!--  JamiId  -->
+    <!--  PulseId  -->
     <string name="jami_id_copy">Copy PulseId</string>
     <string name="jami_id_share">Share PulseId</string>
     <string name="jami_id_validate">Register username</string>
@@ -664,7 +664,7 @@
     <string name="jami_id_looking_for_availability">Checking username availability…</string>
     <string name="jami_id_choose_username">Choose a username</string>
 
-    <!--  WelcomeJami  -->
+    <!--  WelcomePulse  -->
     <string name="welcome_jami_title">Welcome to Pulse</string>
     <string name="welcome_jami_description">Share your Pulse identifier in order to be contacted more easily!</string>
 
