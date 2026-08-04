@@ -337,19 +337,19 @@
   <string name="picker_btn">পরিচিতি নির্বাচন করুন</string>
   <string name="bottomsheet_contact">জ্যামি %1$s এর সাথে যোগাযোগ করুন</string>
   <string name="error_open_no_app_found">এই ফাইলটি সামলানোর জন্য কোন আপ্লিকেশন পাওয়া যাইনি: 1%1$s</string>
-  <!--JamiId-->
+  <!--PulseId-->
   <string name="jami_id_validate">ব্যবহারকারীর নাম নিবন্ধন</string>
   <string name="jami_id_choose_username">একটি ব্যবহারকারীর নাম নির্বাচন করুন</string>
-  <!--WelcomeJami-->
+  <!--WelcomePulse-->
   <string name="welcome_jami_title">জামিতে স্বাগতম</string>
-  <string name="welcome_jami_description">আরও সহজে যোগাযোগ করার জন্য আপনার Jami শনাক্তকারী ভাগ করুন!</string>
+  <string name="welcome_jami_description">আরও সহজে যোগাযোগ করার জন্য আপনার Pulse শনাক্তকারী ভাগ করুন!</string>
   <!--Conversation details-->
   <string name="details">বিস্তারিত</string>
   <string name="swarm_type">কথোপকথনের ধরন</string>
   <string name="Private">ব্যক্তিগত</string>
   <string name="mute_conversation">নিঃশব্দ কথোপকথন</string>
   <!--Donation-->
-  <string name="donation_card_description">আপনি যদি Jami ব্যবহার করতে উপভোগ করেন এবং আমাদের লক্ষ্যে বিশ্বাস করেন, আপনি কি একটি দান করতে চান?</string>
+  <string name="donation_card_description">আপনি যদি Pulse ব্যবহার করতে উপভোগ করেন এবং আমাদের লক্ষ্যে বিশ্বাস করেন, আপনি কি একটি দান করতে চান?</string>
   <string name="donation_card_not_now">এখন না</string>
   <string name="donation_donate">দান করুন</string>
   <!--Extension-->
