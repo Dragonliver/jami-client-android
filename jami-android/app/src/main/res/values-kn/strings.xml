@@ -340,19 +340,19 @@
   <string name="bottomsheet_unblock">ಸದಸ್ಯರ ನಿರ್ಬಂಧ ತೆಗೆಯಿರಿ</string>
   <string name="group_member_blocked">ನಿರ್ಬಂಧಿಸಲಾಗಿದೆ</string>
   <string name="group_member_invited">ಆಹ್ವಾನಿತರು</string>
-  <!--JamiId-->
+  <!--PulseId-->
   <string name="jami_id_validate">ಬಳಕೆದಾರ ಹೆಸರನ್ನು ನೋಂದಾಯಿಸಿ</string>
   <string name="jami_id_choose_username">ಬಳಕೆದಾರ ಹೆಸರನ್ನು ಆರಿಸಿ</string>
-  <!--WelcomeJami-->
+  <!--WelcomePulse-->
   <string name="welcome_jami_title">ಜಾಮಿಗೆ ಸ್ವಾಗತ</string>
-  <string name="welcome_jami_description">ಸುಲಭವಾಗಿ ಸಂಪರ್ಕಿಸಲು ನಿಮ್ಮ Jami ಗುರುತಿಸುವಿಕೆಯನ್ನು ಹಂಚಿಕೊಳ್ಳಿ!</string>
+  <string name="welcome_jami_description">ಸುಲಭವಾಗಿ ಸಂಪರ್ಕಿಸಲು ನಿಮ್ಮ Pulse ಗುರುತಿಸುವಿಕೆಯನ್ನು ಹಂಚಿಕೊಳ್ಳಿ!</string>
   <!--Conversation details-->
   <string name="details">ವಿವರಗಳು</string>
   <string name="swarm_type">ಸಂಭಾಷಣೆ ಪ್ರಕಾರ</string>
   <string name="Private">ಖಾಸಗಿ</string>
   <string name="mute_conversation">ಮೂಕ ಸಂಭಾಷಣೆ</string>
   <!--Donation-->
-  <string name="donation_card_description">ನೀವು Jami ಬಳಸುವುದನ್ನು ಆನಂದಿಸಿದರೆ ಮತ್ತು ನಮ್ಮ ಧ್ಯೇಯದಲ್ಲಿ ನಂಬಿಕೆ ಇಟ್ಟರೆ, ನೀವು ದಾನ ಮಾಡಲು ಬಯಸುವಿರಾ?</string>
+  <string name="donation_card_description">ನೀವು Pulse ಬಳಸುವುದನ್ನು ಆನಂದಿಸಿದರೆ ಮತ್ತು ನಮ್ಮ ಧ್ಯೇಯದಲ್ಲಿ ನಂಬಿಕೆ ಇಟ್ಟರೆ, ನೀವು ದಾನ ಮಾಡಲು ಬಯಸುವಿರಾ?</string>
   <string name="donation_card_not_now">ಈಗ ಬೇಡ</string>
   <string name="donation_donate">ದಾನ ಮಾಡಿ</string>
   <!--Extension-->
