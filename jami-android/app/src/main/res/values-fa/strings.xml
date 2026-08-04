@@ -4,7 +4,7 @@
   <string name="submit_issue_title">گزارش اشکال</string>
   <string name="submit_issue_action_description"><u>گزارش مشکل جدید</u></string>
   <string name="section_license">مجوز</string>
-  <string name="sponsor_section">Jami is free software developed and supported by</string>
+  <string name="sponsor_section">Pulse is free software developed and supported by</string>
   <string name="copyright_section">کپی رایت</string>
   <string name="contribute_section">مشارکت و همکاری</string>
   <string name="version_section">نسخه</string>
@@ -149,7 +149,7 @@ contact@jami.net.</string>
   <string name="ringtone_error_size_too_big">این فایل خیلی بزرگ است. حداکثر اندازه %1$d کیلو‌بایت است.</string>
   <string name="ringtone_custom_prompt">تعیین صدای زنگ سفارشی</string>
   <string name="ringtone_custom_label">سفارشی</string>
-  <string name="ringtone_jami_tones">Jami ringtones</string>
+  <string name="ringtone_jami_tones">Pulse ringtones</string>
   <!--Read contacts permission-->
   <!--Write call log permission-->
   <!--Post notifications permission-->
@@ -221,7 +221,7 @@ contact@jami.net.</string>
   <string name="prompt_new_password">گذرواژه جدید</string>
   <string name="prompt_new_password_optional">گذرواژه جدید (اختیاری)</string>
   <string name="prompt_new_password_repeat">تایید گذرواژه جدید</string>
-  <string name="account_create_title">حساب Jami را ایجاد کنید</string>
+  <string name="account_create_title">حساب Pulse را ایجاد کنید</string>
   <string name="prompt_new_username">نام کاربری جدید را وارد کنید</string>
   <string name="prompt_hint_username">نام کاربری</string>
   <string name="help_password_choose">برای حفاظت از حساب جمی خود، گذرواژه‌ای قوی را که به خاطر خواهید سپرد، برگزینید.</string>
@@ -360,24 +360,24 @@ contact@jami.net.</string>
   <string name="dialog_hint_description">توضیحات</string>
   <string name="picker_title">انتخاب مخاطبین</string>
   <string name="picker_btn">انتخاب مخاطبین</string>
-  <string name="bottomsheet_contact">با Jami\n%1$s تماس بگیرید</string>
+  <string name="bottomsheet_contact">با Pulse\n%1$s تماس بگیرید</string>
   <string name="bottomsheet_block">مسدود کردن عضو</string>
   <string name="bottomsheet_unblock">رفع مسدودیت عضو</string>
   <string name="group_member_blocked">مسدود شد</string>
   <string name="group_member_invited">دعوت شده</string>
-  <!--JamiId-->
+  <!--PulseId-->
   <string name="jami_id_validate">ثبت نام کاربری</string>
   <string name="jami_id_choose_username">یک نام کاربری را انتخاب کنید</string>
-  <!--WelcomeJami-->
+  <!--WelcomePulse-->
   <string name="welcome_jami_title">به جمی خوش آمدید</string>
-  <string name="welcome_jami_description">شناسه Jami خود را به اشتراک بگذارید تا راحت‌تر با شما تماس گرفته شود!</string>
+  <string name="welcome_jami_description">شناسه Pulse خود را به اشتراک بگذارید تا راحت‌تر با شما تماس گرفته شود!</string>
   <!--Conversation details-->
   <string name="details">جزییات</string>
   <string name="swarm_type">نوع گفتگو</string>
   <string name="Private">خصوصی</string>
   <string name="mute_conversation">مکالمه ای خاموش</string>
   <!--Donation-->
-  <string name="donation_card_description">اگر از استفاده از Jami لذت می‌برید و به مأموریت ما باور دارید، آیا می‌خواهید کمک مالی کنید؟</string>
+  <string name="donation_card_description">اگر از استفاده از Pulse لذت می‌برید و به مأموریت ما باور دارید، آیا می‌خواهید کمک مالی کنید؟</string>
   <string name="donation_card_not_now">الان نه</string>
   <string name="donation_donate">اهدا کنید</string>
   <string name="donation_setting_title">یادآوری اهدا کردن</string>
