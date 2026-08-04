@@ -8,7 +8,7 @@
   <string name="account_selection">खाता चुनें</string>
   <string name="add_ring_account_title">खाता जोड़ें</string>
   <string name="add_sip_account_title">SIP खाता जोड़ें</string>
-  <string name="ring_account_default_name">Jami खाता %1$s</string>
+  <string name="ring_account_default_name">Pulse खाता %1$s</string>
   <string name="account_creation_error">खाता बनाते समय एक त्रुटि हुई।</string>
   <string name="prompt_alias">उपनाम</string>
   <string name="prompt_hostname">मेजबान नाम</string>
@@ -130,7 +130,7 @@
   <string name="account_export_file">बैकअप खाता</string>
   <string name="account_export_file_summary">बाद में इसे बहाल करने के लिए अपने डिवाइस पर अपने खाते का बैकअप लें।</string>
   <string name="account_enter_password">पासवर्ड दर्ज करें</string>
-  <string name="account_contact_me">Jami पर मुझसे संपर्क करें!</string>
+  <string name="account_contact_me">Pulse पर मुझसे संपर्क करें!</string>
   <string name="update_account">खाता अद्यतन</string>
   <string name="account_migration">आपका जेमी खाता अपडेट किया जा सकता है. कृपया अपना पासवर्ड दर्ज करें.</string>
   <string name="ring_account">जमी खाता</string>
@@ -139,7 +139,7 @@
   <string name="account_migration_title_dialog">खाता माइग्रेशन</string>
   <string name="account_update_needed">अद्यतन की आवश्यकता</string>
   <string name="account_cannot_be_found_title">खाता त्रुटि</string>
-  <string name="account_cannot_be_found_message">Jami नेटवर्क पर खाता नहीं मिल सका। सुनिश्चित करें कि इसे किसी मौजूदा डिवाइस से Jami पर निर्यात किया गया था, और प्रदान किए गए क्रेडेंशियल सही हैं।</string>
+  <string name="account_cannot_be_found_message">Pulse नेटवर्क पर खाता नहीं मिल सका। सुनिश्चित करें कि इसे किसी मौजूदा डिवाइस से Pulse पर निर्यात किया गया था, और प्रदान किए गए क्रेडेंशियल सही हैं।</string>
   <string name="account_sip_cannot_be_registered_message">आप खाता निर्माण प्रक्रिया को जारी रख सकते हैं या अपनी जानकारी को यहां संपादित कर सकते हैं। खाता सेटिंग्स में बाद में संस्करण अभी भी संभव है।</string>
   <string name="account_no_network_title">नेटवर्क त्रुटि</string>
   <string name="account_device_added_title">खाता उपकरण जोड़ा गया</string>
@@ -158,7 +158,7 @@
   <string name="account_link_device">किसी अन्य डिवाइस से कनेक्ट करें</string>
   <string name="account_link_button">नेटवर्क से कनेक्ट करें</string>
   <string name="account_link_archive_button">बैकअप से कनेक्ट करें</string>
-  <string name="account_new_button">Jami खाता बनाएं</string>
+  <string name="account_new_button">Pulse खाता बनाएं</string>
   <string name="account_link_export_button">नई डिवाइस लिंक</string>
   <string name="account_link_show_button">%d अधिक जुड़ी हुई डिवाइस दिखाएँ</string>
   <string name="account_link_hide_button">छुपाए हुए कनेक्टेड डिवाइस</string>
@@ -210,7 +210,7 @@
   <!--Link a new device-->
   <string name="error_format_not_supported">यह प्रारूप समर्थित नहीं है।</string>
   <string name="account_link_device_title">एक नई डिवाइस को लिंक करें</string>
-  <string name="account_generate_export_info">Jami इंस्टॉल करें और लॉन्च करें। “किसी अन्य डिवाइस से आयात करें” चुनें, और QR कोड स्कैन करें। वैकल्पिक रूप से, PIN कोड मैन्युअल रूप से दर्ज करें।</string>
+  <string name="account_generate_export_info">Pulse इंस्टॉल करें और लॉन्च करें। “किसी अन्य डिवाइस से आयात करें” चुनें, और QR कोड स्कैन करें। वैकल्पिक रूप से, PIN कोड मैन्युअल रूप से दर्ज करें।</string>
   <string name="account_link_device_button">कनेक्ट करें</string>
   <!--Biometry-->
 </resources>
