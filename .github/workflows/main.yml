@@ -12,13 +12,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1. Скачиваем репозиторий вместе с подмодулями
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
           submodules: recursive
 
-      # 2. Устанавливаем системные утилиты
       - name: Install dependencies
         run: |
           sudo apt-get update
@@ -34,31 +32,28 @@ jobs:
             libtool \
             openjdk-17-jdk
 
-      # 3. Настраиваем окружение Java (JDK 17)
       - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
           java-version: '17'
 
-      # 4. Жесткое исправление зеркала GMP (используем зеркало Debian)
-      - name: Fix GMP download mirror
-        run: |
-          echo "Force-patching gmp rules.mak to use Debian mirror..."
-          find daemon/contrib/src/gmp -name "rules.mak" -type f | while read file; do
-            echo "Patching $file"
-            sed -i 's|URL = .*|URL = https://deb.debian.org/debian/pool/main/g/gmp/gmp_6.3.0.orig.tar.xz|g' "$file"
-          done
-          rm -f daemon/contrib/tarballs/gmp-6.3.0.tar.xz
-
-      # 5. Переходим в папку jami-android и собираем APK через gradlew
       - name: Build APK inside jami-android
         run: |
           cd jami-android
+          
+          # Динамически патчим правила загрузки GMP внутри репозитория демона, 
+          # чтобы вместо недоступного ftpmirror использовалось зеркало Debian
+          echo "Patching GMP rules.mak to avoid 502 Bad Gateway..."
+          GMP_RULES="../daemon/contrib/src/gmp/rules.mak"
+          if [ -f "$GMP_RULES" ]; then
+            sed -i 's|https://ftpmirror.gnu.org/gmp/gmp-6.3.0.tar.xz|https://deb.debian.org/debian/pool/main/g/gmp/gmp_6.3.0.orig.tar.xz|g' "$GMP_RULES"
+            sed -i 's|ftp://.*|https://deb.debian.org/debian/pool/main/g/gmp/gmp_6.3.0.orig.tar.xz|g' "$GMP_RULES"
+          fi
+
           chmod +x gradlew
           ./gradlew assembleDebug
 
-      # 6. Сохраняем готовый APK-файл в артефакты
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
         with:
