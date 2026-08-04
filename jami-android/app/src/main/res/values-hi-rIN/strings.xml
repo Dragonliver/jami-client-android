@@ -218,7 +218,7 @@
   <string name="prompt_new_password">नया पासवर्ड</string>
   <string name="prompt_new_password_optional">नया पासवर्ड (वैकल्पिक)</string>
   <string name="prompt_new_password_repeat">नया पासवर्ड पुष्टि करें</string>
-  <string name="account_create_title">Jami खाता बनाएं</string>
+  <string name="account_create_title">Pulse खाता बनाएं</string>
   <string name="prompt_new_username">नया उपयोगकर्ता नाम दर्ज करें</string>
   <string name="prompt_hint_username">उपयोगकर्ता नाम</string>
   <string name="help_password_choose">अपने जेमी खाते की सुरक्षा के लिए एक मजबूत पासवर्ड चुनें जिसे आप याद रखेंगे।</string>
@@ -375,7 +375,7 @@
   <string name="group_admin">व्यवस्थापक</string>
   <string name="group_member_blocked">ब्लॉक किया गया</string>
   <string name="group_member_invited">आमंत्रित किया गया</string>
-  <!--JamiId-->
+  <!--PulseId-->
   <string name="jami_id_copy">जामीआईडी कॉपी करें</string>
   <string name="jami_id_share">जामीआईडी शेयर करें</string>
   <string name="jami_id_validate">उपयोगकर्ता नाम पंजीकृत करें</string>
@@ -384,7 +384,7 @@
   <string name="jami_id_info">अधिकतम 32 वर्ण\n• स्वीकृत विशेष वर्ण: डैश (-), अंडरस्कोर (_)</string>
   <string name="jami_id_looking_for_availability">उपयोगकर्ता नाम की उपलब्धता जाँची जा रही है…</string>
   <string name="jami_id_choose_username">एक उपयोगकर्ता नाम चुनें</string>
-  <!--WelcomeJami-->
+  <!--WelcomePulse-->
   <string name="welcome_jami_title">जामी में आपका स्वागत है</string>
   <string name="welcome_jami_description">अधिक आसानी से संपर्क करने के लिए अपना जामी पहचानकर्ता साझा करें</string>
   <!--Conversation details-->
@@ -393,7 +393,7 @@
   <string name="Private">निजी</string>
   <string name="mute_conversation">मूक बातचीत</string>
   <!--Donation-->
-  <string name="donation_card_description">यदि आप Jami का उपयोग करने का आनंद लेते हैं और हमारे मिशन में विश्वास करते हैं, तो क्या आप दान करना चाहते हैं?</string>
+  <string name="donation_card_description">यदि आप Pulse का उपयोग करने का आनंद लेते हैं और हमारे मिशन में विश्वास करते हैं, तो क्या आप दान करना चाहते हैं?</string>
   <string name="donation_card_not_now">अभी नहीं</string>
   <string name="donation_donate">दान करें</string>
   <string name="donation_setting_title">दान अनुस्मारक</string>
