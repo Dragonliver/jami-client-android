@@ -1,4 +1,4 @@
-name: Build Jami Android APK
+Name: Build Jami Android APK
 
 on:
   push:
@@ -41,14 +41,19 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      # 4. Переходим в папку jami-android и собираем APK через gradlew
+      # 4. Исправляем ошибку 502 Bad Gateway для GMP перед сборкой
+      - name: Fix GMP download mirror
+        run: |
+          find daemon/contrib/src/gmp -name "rules.mak" -exec sed -i 's|ftpmirror.gnu.org/gmp|gmplib.org/download/gmp|g' {} +
+
+      # 5. Переходим в папку jami-android и собираем APK через gradlew
       - name: Build APK inside jami-android
         run: |
           cd jami-android
           chmod +x gradlew
           ./gradlew assembleDebug
 
-      # 5. Сохраняем готовый APK-файл в артефакты GitHub (универсальный поиск)
+      # 6. Сохраняем готовый APK-файл в артефакты GitHub (универсальный поиск)
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
         with:
