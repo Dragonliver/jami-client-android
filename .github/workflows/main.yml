@@ -38,18 +38,26 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: Build APK inside jami-android
+      - name: Patch unstable download mirrors
         run: |
-          cd jami-android
-          
-          # Массово заменяем битые ссылки ftpmirror.gnu.org на зеркало GNU (gnu.org/prep/ftp.html илильники /ftp/gnu/)
-          echo "Patching all GNU mirrors in contrib rules..."
-          find ../daemon/contrib/src -name "rules.mak" -type f | while read file; do
+          # 1. Массово заменяем битые ссылки ftpmirror.gnu.org на стабильное зеркало kernel.org
+          echo "Patching GNU mirrors..."
+          find daemon/contrib/src -name "rules.mak" -type f | while read file; do
             sed -i 's|https://ftpmirror.gnu.org|https://mirrors.kernel.org/gnu|g' "$file"
             sed -i 's|http://ftpmirror.gnu.org|https://mirrors.kernel.org/gnu|g' "$file"
             sed -i 's|ftp://ftpmirror.gnu.org|https://mirrors.kernel.org/gnu|g' "$file"
           done
 
+          # 2. Исправляем ссылку для загрузки GnuTLS на стабильное зеркало
+          GNUTLS_RULE="daemon/contrib/src/gnutls/rules.mak"
+          if [ -f "$GNUTLS_RULE" ]; then
+            echo "Patching GnuTLS mirror..."
+            sed -i 's|https://www.gnupg.org/ftp/gcrypt/gnutls|https://deb.debian.org/debian/pool/main/g/gnutls28|g' "$GNUTLS_RULE"
+          fi
+
+      - name: Build APK inside jami-android
+        run: |
+          cd jami-android
           chmod +x gradlew
           ./gradlew assembleDebug
 
