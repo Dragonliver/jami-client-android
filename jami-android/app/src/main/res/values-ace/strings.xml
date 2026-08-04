@@ -92,7 +92,7 @@
   <string name="yesterday">ديري</string>
   <!--Contacts-->
   <string name="prompt_new_password_repeat">ڤڠاتسكن ڤرسودن بارو</string>
-  <string name="account_create_title">منوليس ايكون Jami</string>
+  <string name="account_create_title">منوليس ايكون Pulse</string>
   <string name="prompt_hint_username">نام ڤڠڬونا</string>
   <string name="wizard_next">ڤد ماس يڠ لاين</string>
   <string name="wizard_back">ڤرنه</string>
@@ -164,10 +164,10 @@
   <string name="tab_settings">سيٽنگون</string>
   <string name="dialog_hint_title">عنوان</string>
   <string name="dialog_hint_description">ڤرسمباڬان</string>
-  <!--JamiId-->
+  <!--PulseId-->
   <string name="jami_id_validate">نام ڤڠڬونا</string>
   <string name="jami_id_choose_username">مميليه نام ڤڠڬونا</string>
-  <!--WelcomeJami-->
+  <!--WelcomePulse-->
   <string name="welcome_jami_title">خوش اومدن جامي</string>
   <!--Conversation details-->
   <string name="details">ڤڠاجرن</string>
