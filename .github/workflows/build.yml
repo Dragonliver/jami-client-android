@@ -12,13 +12,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1. Скачиваем репозиторий вместе с подмодулями
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
           submodules: recursive
 
-      # 2. Устанавливаем системные утилиты
       - name: Install dependencies
         run: |
           sudo apt-get update
@@ -34,32 +32,36 @@ jobs:
             libtool \
             openjdk-17-jdk
 
-      # 3. Настраиваем окружение Java (JDK 17)
       - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
           java-version: '17'
 
-      # 4. Надежное исправление ссылки GMP (используем зеркало Debian)
-      - name: Fix GMP download mirror
+      - name: Patch unstable download mirrors
         run: |
-          echo "Patching gmp rules.mak to use reliable mirror..."
-          find daemon/contrib/src/gmp -name "rules.mak" -type f | while read file; do
-            echo "Patching $file"
-            sed -i 's|https://.*gnu.org/.*gmp-\(.*\)\.tar\.xz|https://deb.debian.org/debian/pool/main/g/gmp/gmp_\1.orig.tar.xz|g' "$file"
-            sed -i 's|http://.*gnu.org/.*gmp-\(.*\)\.tar\.xz|https://deb.debian.org/debian/pool/main/g/gmp/gmp_\1.orig.tar.xz|g' "$file"
-            sed -i 's|\$(GNU)/gmp/|https://deb.debian.org/debian/pool/main/g/gmp/|g' "$file"
+          # 1. Массово заменяем битые ссылки ftpmirror.gnu.org на стабильное зеркало kernel.org
+          echo "Patching GNU mirrors..."
+          find daemon/contrib/src -name "rules.mak" -type f | while read file; do
+            sed -i 's|https://ftpmirror.gnu.org|https://mirrors.kernel.org/gnu|g' "$file"
+            sed -i 's|http://ftpmirror.gnu.org|https://mirrors.kernel.org/gnu|g' "$file"
+            sed -i 's|ftp://ftpmirror.gnu.org|https://mirrors.kernel.org/gnu|g' "$file"
           done
 
-      # 5. Переходим в папку jami-android и собираем APK через gradlew
+          # 2. Исправляем ссылки для загрузки GnuTLS на стабильное зеркало Debian
+          GNUTLS_RULE="daemon/contrib/src/gnutls/rules.mak"
+          if [ -f "$GNUTLS_RULE" ]; then
+            echo "Patching GnuTLS mirror..."
+            sed -i 's|https://www.gnupg.org/ftp/gcrypt/gnutls|https://deb.debian.org/debian/pool/main/g/gnutls28|g' "$GNUTLS_RULE"
+            sed -i 's|http://www.gnupg.org/ftp/gcrypt/gnutls|https://deb.debian.org/debian/pool/main/g/gnutls28|g' "$GNUTLS_RULE"
+          fi
+
       - name: Build APK inside jami-android
         run: |
           cd jami-android
           chmod +x gradlew
           ./gradlew assembleDebug
 
-      # 6. Сохраняем готовый APK-файл в артефакты
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
         with:
