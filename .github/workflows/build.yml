@@ -1,22 +1,23 @@
-name: Build Jami Android APK
+name: Build Jami Android
 
 on:
   push:
-    branches: [ master, main ]
+    branches: [ "*" ]
   pull_request:
-    branches: [ master, main ]
-  workflow_dispatch:
+    branches: [ "*" ]
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
+      # 1. Клонирование репозитория вместе с подмодулями (чтобы появилась папка daemon)
+      - name: Checkout repository with submodules
         uses: actions/checkout@v4
         with:
           submodules: recursive
 
+      # 2. Установка необходимых системных зависимостей
       - name: Install dependencies
         run: |
           sudo apt-get update
@@ -29,43 +30,18 @@ jobs:
             m4 \
             autotools-dev \
             autopoint \
-            libtool \
-            openjdk-17-jdk
+            libtool
 
+      # 3. Настройка Java (нужна для сборки Android-приложений)
       - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: Patch unstable download mirrors
-        run: |
-          # 1. Массово заменяем битые ссылки ftpmirror.gnu.org на стабильное зеркало kernel.org
-          echo "Patching GNU mirrors..."
-          find daemon/contrib/src -name "rules.mak" -type f | while read file; do
-            sed -i 's|https://ftpmirror.gnu.org|https://mirrors.kernel.org/gnu|g' "$file"
-            sed -i 's|http://ftpmirror.gnu.org|https://mirrors.kernel.org/gnu|g' "$file"
-            sed -i 's|ftp://ftpmirror.gnu.org|https://mirrors.kernel.org/gnu|g' "$file"
-          done
-
-          # 2. Исправляем ссылки для загрузки GnuTLS на стабильное зеркало Debian
-          GNUTLS_RULE="daemon/contrib/src/gnutls/rules.mak"
-          if [ -f "$GNUTLS_RULE" ]; then
-            echo "Patching GnuTLS mirror..."
-            sed -i 's|https://www.gnupg.org/ftp/gcrypt/gnutls|https://deb.debian.org/debian/pool/main/g/gnutls28|g' "$GNUTLS_RULE"
-            sed -i 's|http://www.gnupg.org/ftp/gcrypt/gnutls|https://deb.debian.org/debian/pool/main/g/gnutls28|g' "$GNUTLS_RULE"
-          fi
-
-      - name: Build APK inside jami-android
+      # 4. Сборка проекта (пример вызова gradle в папке jami-android)
+      - name: Build with Gradle
         run: |
           cd jami-android
           chmod +x gradlew
           ./gradlew assembleDebug
-
-      - name: Upload APK artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: jami-custom-debug-apk
-          path: |
-            **/*.apk
-            !**/build/intermediates/**
