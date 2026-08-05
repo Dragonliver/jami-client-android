@@ -11,13 +11,13 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1. Клонирование репозитория вместе с подмодулями (чтобы появилась папка daemon)
+      # 1. Клонирование репозитория вместе с подмодулями (включая daemon)
       - name: Checkout repository with submodules
         uses: actions/checkout@v4
         with:
           submodules: recursive
 
-      # 2. Установка необходимых системных зависимостей
+      # 2. Установка необходимых системных зависимостей для сборки под Android
       - name: Install dependencies
         run: |
           sudo apt-get update
@@ -30,18 +30,24 @@ jobs:
             m4 \
             autotools-dev \
             autopoint \
-            libtool
+            libtool \
+            python3 \
+            python3-pip \
+            wget \
+            git
 
-      # 3. Настройка Java (нужна для сборки Android-приложений)
+      # 3. Настройка Java (необходима для сборки Android/Gradle)
       - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
           java-version: '17'
 
-      # 4. Сборка проекта (пример вызова gradle в папке jami-android)
-      - name: Build with Gradle
+      # 4. Настройка Android SDK (требуется скриптом сборки)
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+
+      # 5. Запуск официального скрипта сборки Jami
+      - name: Build Jami Android with build.py
         run: |
-          cd jami-android
-          chmod +x gradlew
-          ./gradlew assembleDebug
+          python3 build.py --android
